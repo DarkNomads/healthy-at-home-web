@@ -1,0 +1,60 @@
+<div class="container">
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <div class="page-header">
+                <h1>Your Profile</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex row mb-3 no-gutters justify-content-center">
+        <div class="d-flex col justify-content-center">
+            <div class="card profile-card ">
+                <div class="card-body" *ngIf="!editing">
+                    <h5 class="card-title text-center">{{user.name}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Age: {{ user.age }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Height: {{ generateReadableHeight( user.height ) }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Weight: {{ user.weight }} lbs</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Activity Level: {{ user.activity_level }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Sleep Goal: {{ user.sleep_goal }} Hours</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">BMI: {{ generateBMI( user.height, user.weight ) }}</h6>
+                    <button type="button" class="btn btn-primary" (click)="onEdit()" >Edit Your Profile</button>
+                </div>
+                <div class="card-body" *ngIf="editing">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Name: </h6>
+                        <input class="inline-item" [(ngModel)]="editUser.name">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Age: </h6>
+                        <input class="inline-item" [(ngModel)]="editUser.age">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Height: </h6>
+                        <input class="inline-item" [(ngModel)]="editUser.height">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Weight: </h6>
+                        <input class="inline-item" [(ngModel)]="editUser.weight">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Activity Level: </h6>
+                        <select class="inline-item" [(ngModel)]="editUser.activity_level">
+                            <option value="{{activity_levels[0]}}">{{activity_levels[0]}}</option>
+                            <option value="{{activity_levels[1]}}">{{activity_levels[1]}}</option>
+                            <option value="{{activity_levels[2]}}">{{activity_levels[2]}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Sleep Goal: </h6>
+                        <input class="inline-item" [(ngModel)]="editUser.sleep_goal">
+                    </div>
+                    <button type="button" class="btn btn-success" (click)="onSubmit()">Submit</button>
+                    <button type="button" class="btn btn-secondary button-spacing" (click)="onCancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
