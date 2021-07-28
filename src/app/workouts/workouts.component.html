@@ -1,0 +1,53 @@
+<div class="container">
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <div class="page-header">
+                <h1>Your Workouts</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <button type="button" class="col btn btn-success px-5" (click)="onCreate()">Create Workout</button>
+        </div>
+    </div>
+
+    <div class="d-flex row mb-3 no-gutters justify-content-center">
+        
+        <div *ngFor="let workout of workouts" class="d-flex col card-col m-2 justify-content-center">
+            <div class="card app-card">
+
+                <div *ngIf="workout !== selectedWorkout" class="card-body" (click)=selectWorkout(workout)>
+                    <h5 class="card-title">{{ workout.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ workout.reps }} reps x {{ workout.sets }}</h6>
+                    <p class="card-text">{{ workout.description }}</p>
+                </div>
+
+                <div *ngIf="workout === selectedWorkout && !editing" class="card-body">
+                    <h5 class="card-title">{{ workout.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ workout.reps }} reps x {{ workout.sets }}</h6>
+                    <p class="card-text">{{ workout.description }}</p>
+                    <div class="row justify-content-between">
+                        <button type="button" class="col btn btn-primary control" (click)="onStart()">Start</button>
+                        <button type="button" class="col btn btn-warning control" (click)="onEdit()">Edit</button>
+                    </div>
+                </div>
+
+                <div *ngIf="workout === selectedWorkout && editing" class="card-body">
+                    <h5 class="card-title">Editing {{ workout.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ workout.reps }} reps x {{ workout.sets }}</h6>
+                    <p class="card-text">{{ workout.description }}</p>
+                    <div class="row justify-content-between">
+                        <button type="button" class="col btn btn-success control" (click)="onSubmit()">Submit</button>
+                        <button type="button" class="col btn btn-danger control" (click)="onDelete()">Delete</button>
+                        <button type="button" class="col btn btn-secondary control" (click)="onCancel()">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
