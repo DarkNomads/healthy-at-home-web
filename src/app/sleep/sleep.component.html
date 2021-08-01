@@ -1,0 +1,73 @@
+<div class="container">
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <div class="page-header">
+                <h1>Your Sleep Tracker</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <h4 class="text-muted">Sleep Goal: {{ sleepGoal }} Hours</h4>
+        </div>
+    </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <h4 class="text-muted">
+                Sleep Average: 
+                <span *ngIf="getAverage() != -1 && getAverage() >= sleepGoal" class="text-success">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() != -1 && getAverage() >= sleepGoal/2 && getAverage() < sleepGoal" class="text-warning">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() != -1 && getAverage() < sleepGoal/2" class="text-danger">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() == -1">No Data</span>
+            </h4>
+        </div>
+    </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <button type="button" class="col btn btn-success px-5" (click)="onCreate()">Add Entry</button>
+        </div>
+    </div>
+
+    <div class="d-flex row mb-3 no-gutters justify-content-center">
+        
+        <div *ngFor="let sleep of sleepDays" class="d-flex col card-col m-2 justify-content-center">
+            <div class="card app-card">
+
+                <div *ngIf="sleep !== selectedSleep" class="card-body" (click)=selectSleep(sleep)>
+                    <h5 class="card-title">Entry for: {{ sleep.date }} </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Hours slept: {{ sleep.hours }}</h6>
+                </div>
+
+                <div *ngIf="sleep === selectedSleep && !editing" class="card-body" (click)=onCancel()>
+                    <h5 class="card-title">Entry for: {{ sleep.date }} </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Hours slept: {{ sleep.hours }}</h6>
+                    <div class="text-center">
+                        <button type="button" class="col btn btn-warning control px-5" (click)="onEdit()">Edit</button>
+                    </div>
+                </div>
+
+                <div *ngIf="sleep === selectedSleep && editing" class="card-body">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Entry for: </h6>
+                        <input class="inline-item" [(ngModel)]="editSleep.date">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">Hours slept: </h6>
+                        <input class="inline-item" [(ngModel)]="editSleep.hours">
+                    </div>
+                    <div class="row justify-content-between">
+                        <button type="button" class="col btn btn-success control" (click)="onSubmit()">Submit</button>
+                        <button type="button" class="col btn btn-danger control" (click)="onDelete()">Delete</button>
+                        <button type="button" class="col btn btn-secondary control" (click)="onCancel()">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
