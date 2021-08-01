@@ -19,7 +19,9 @@
                     <h6 class="card-subtitle mb-2 text-muted">Activity Level: {{ user.activity_level }}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Sleep Goal: {{ user.sleep_goal }} Hours</h6>
                     <h6 class="card-subtitle mb-2 text-muted">BMI: {{ generateBMI( user.height, user.weight ) }}</h6>
-                    <button type="button" class="btn btn-primary" (click)="onEdit()" >Edit Your Profile</button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-warning" (click)="onEdit()" >Edit Your Profile</button>
+                    </div>
                 </div>
                 <div class="card-body" *ngIf="editing">
                     <div>
@@ -50,8 +52,12 @@
                         <h6 class="card-subtitle mb-2 text-muted inline-item"> Sleep Goal: </h6>
                         <input class="inline-item" [(ngModel)]="editUser.sleep_goal">
                     </div>
-                    <button type="button" class="btn btn-success" (click)="onSubmit()">Submit</button>
-                    <button type="button" class="btn btn-secondary button-spacing" (click)="onCancel()">Cancel</button>
+                    <div class="row text-center">
+                        <div class="col">
+                            <button type="button" class="btn btn-success control px-5" (click)="onSubmit()">Submit</button>
+                            <button type="button" class="btn btn-secondary control px-5" (click)="onCancel()">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
