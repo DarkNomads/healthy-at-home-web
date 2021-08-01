@@ -1,13 +1,18 @@
 .app-card {
-    width: 20rem;
+    width: 25rem;
 }
 
 .card-col {
-    max-width: 20rem;
+    max-width: 25rem;
     padding-left: 0;
     padding-right: 0;
 }
 
 .control {
     margin: 10px;
+}
+
+.inline-item {
+    display: inline-block;
+    margin-right: 1rem;
 }

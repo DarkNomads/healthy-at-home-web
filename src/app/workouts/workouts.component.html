@@ -10,6 +10,7 @@
 
     <div class="row mb-3 text-center">
         <div class="col">
+            <button type="button" class="col btn btn-primary px-5 control" (click)="onStart()">Start Workout</button>
             <button type="button" class="col btn btn-success px-5" (click)="onCreate()">Create Workout</button>
         </div>
     </div>
@@ -20,25 +21,46 @@
             <div class="card app-card">
 
                 <div *ngIf="workout !== selectedWorkout" class="card-body" (click)=selectWorkout(workout)>
-                    <h5 class="card-title">{{ workout.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ workout.reps }} reps x {{ workout.sets }}</h6>
+                    <h5 class="card-title">
+                        {{ workout.name }} 
+                        <fa-icon *ngIf="isAdded(workout)" [icon]="faCheck"></fa-icon> 
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ workout.reps }} reps x {{ workout.sets }} sets</h6>
                     <p class="card-text">{{ workout.description }}</p>
                 </div>
 
-                <div *ngIf="workout === selectedWorkout && !editing" class="card-body">
-                    <h5 class="card-title">{{ workout.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ workout.reps }} reps x {{ workout.sets }}</h6>
-                    <p class="card-text">{{ workout.description }}</p>
+                <div *ngIf="workout === selectedWorkout && !editing" class="card-body" (click)=onCancel()>
+                    <h5 class="card-title">
+                        {{ selectedWorkout.name }} 
+                        <fa-icon *ngIf="isAdded(selectedWorkout)" [icon]="faCheck"></fa-icon> 
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ selectedWorkout.reps }} reps x {{ selectedWorkout.sets }} sets</h6>
+                    <p class="card-text">{{ selectedWorkout.description }}</p>
                     <div class="row justify-content-between">
-                        <button type="button" class="col btn btn-primary control" (click)="onStart()">Start</button>
+                        <button *ngIf="!isAdded(selectedWorkout)" type="button" class="col btn btn-primary control" (click)="onAdd()">Add</button>
+                        <button *ngIf="isAdded(selectedWorkout)" type="button" class="col btn btn-secondary control" (click)="onRemove()">Remove</button>
                         <button type="button" class="col btn btn-warning control" (click)="onEdit()">Edit</button>
                     </div>
                 </div>
 
                 <div *ngIf="workout === selectedWorkout && editing" class="card-body">
-                    <h5 class="card-title">Editing {{ workout.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ workout.reps }} reps x {{ workout.sets }}</h6>
-                    <p class="card-text">{{ workout.description }}</p>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Name: </h6>
+                        <input class="inline-item" [(ngModel)]="editWorkout.name">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">Reps: </h6>
+                        <input class="inline-item" [(ngModel)]="editWorkout.reps">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">Sets: </h6>
+                        <input class="inline-item" [(ngModel)]="editWorkout.sets">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle my-2 text-muted">Description</h6>
+                        <textarea rows="4" cols="45" [(ngModel)]="editWorkout.description"></textarea>
+                    </div>
+                    
                     <div class="row justify-content-between">
                         <button type="button" class="col btn btn-success control" (click)="onSubmit()">Submit</button>
                         <button type="button" class="col btn btn-danger control" (click)="onDelete()">Delete</button>
