@@ -18,6 +18,7 @@
                     <h6 class="card-subtitle mb-2 text-muted">Weight: {{ user.weight }} lbs</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Activity Level: {{ user.activity_level }}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Sleep Goal: {{ user.sleep_goal }} Hours</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Calorie Goal: {{ user.calorie_goal }} Calories</h6>
                     <h6 class="card-subtitle mb-2 text-muted">BMI: {{ generateBMI( user.height, user.weight ) }}</h6>
                     <div class="text-center">
                         <button type="button" class="btn btn-warning" (click)="onEdit()" >Edit Your Profile</button>
@@ -51,6 +52,10 @@
                     <div>
                         <h6 class="card-subtitle mb-2 text-muted inline-item"> Sleep Goal: </h6>
                         <input class="inline-item" [(ngModel)]="editUser.sleep_goal">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Calorie Goal: </h6>
+                        <input class="inline-item" [(ngModel)]="editUser.calorie_goal">
                     </div>
                     <div class="row text-center">
                         <div class="col">

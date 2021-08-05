@@ -17,13 +17,22 @@ export class ProfileComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.user = {
-      name: "Isaac Kirsch",
-      height: 71,
-      age: 20,
-      weight: 140,
-      activity_level: "Moderate",
-      sleep_goal: "8"
+
+    if( localStorage.getItem( 'user' ) ) {
+      this.user = localStorage.getItem( 'user' );
+      this.user = JSON.parse( this.user );
+    }
+    else {
+      this.user = {
+        name: "New User",
+        height: 0,
+        age: 0,
+        weight: 0,
+        activity_level: "Low",
+        sleep_goal: 8,
+        calorie_goal: 2200
+      }
+      localStorage.setItem( 'user', JSON.stringify( this.user ) );
     }
   }
 
@@ -40,6 +49,7 @@ export class ProfileComponent implements OnInit {
     if( isNaN( this.editUser.weight ) ) this.editUser.weight = this.user.weight;
     if( isNaN( this.editUser.sleep_goal ) ) this.editUser.sleep_goal = this.user.sleep_goal;
     this.user = JSON.parse( JSON.stringify( this.editUser ) );
+    localStorage.setItem( 'user', JSON.stringify( this.user ) );
   }
 
   onCancel() {
