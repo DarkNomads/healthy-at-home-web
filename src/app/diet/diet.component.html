@@ -1,0 +1,176 @@
+<div class="container">
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <div class="page-header">
+                <h1>Your Diet Planning</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <h4 class="text-muted">Calorie Goal: {{ calorieGoal }} Calories</h4>
+        </div>
+    </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <h4 class="text-muted">
+                Calorie Average:
+                <span *ngIf="getAverage() != -1 && getAverage() >= calorieGoal * 1.5" class="text-danger">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() != -1 && getAverage() >= calorieGoal * 1.25 && getAverage() < calorieGoal * 1.5" class="text-warning">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() != -1 && getAverage() >= calorieGoal * 0.9 && getAverage() < calorieGoal * 1.25" class="text-success">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() != -1 && getAverage() >= calorieGoal/2 && getAverage() < calorieGoal * 0.9" class="text-warning">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() != -1 && getAverage() < calorieGoal/2" class="text-danger">{{ getAverage() }}</span>
+                <span *ngIf="getAverage() == -1">No Data</span>
+            </h4>
+        </div>
+    </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col">
+            <button type="button" class="col btn btn-success px-5" (click)="onCreateEntry()">Add Entry</button>
+        </div>
+    </div>
+
+    <div class="d-flex row mb-3 no-gutters justify-content-center">
+        <div *ngIf="entering" class="d-flex col card-col m-2 justify-content-center">
+            <div class="card app-card">
+                <div class="card-body">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item"> Entry for: </h6>
+                        <input class="inline-item" [(ngModel)]="meal.date">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">Name: </h6>
+                        <input class="inline-item" [(ngModel)]="meal.name">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">Meal Type: </h6>
+                        <select class="inline-item" [(ngModel)]="meal.meal_type">
+                            <option value="{{meal_types[0]}}">{{meal_types[0]}}</option>
+                            <option value="{{meal_types[1]}}">{{meal_types[1]}}</option>
+                            <option value="{{meal_types[2]}}">{{meal_types[2]}}</option>
+                            <option value="{{meal_types[3]}}">{{meal_types[3]}}</option>
+                            <option value="{{meal_types[4]}}">{{meal_types[4]}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">Calories: </h6>
+                        <input class="inline-item" [(ngModel)]="meal.calories">
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">Servings: </h6>
+                        <input class="inline-item" [(ngModel)]="meal.servings">
+                    </div>
+                    <div class="row justify-content-between">
+                        <button type="button" class="col btn btn-success control" (click)="onSubmitMeal()">Submit</button>
+                        <button type="button" class="col btn btn-danger control" (click)="onDeleteMeal()">Delete</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="d-flex row mb-3 no-gutters justify-content-center">
+
+        <div *ngFor="let diet of diets" class="d-flex col card-col m-2 justify-content-center">
+            <div class="card app-card">
+
+                <div *ngIf="diet !== selectedDiet" class="card-body" (click)=selectDiet(diet)>
+                    <h4 class="card-title">Entry for: {{ diet.date }} </h4>
+                    <h5 class="card-subtitle mb-2 text-muted">Total Calories: {{ diet.total_calories }}</h5>
+                    <h5 *ngIf="diet.breakfast.length > 0" class="card-subtitle mb-2">Breakfast</h5>
+                    <div *ngFor="let meal of diet.breakfast">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.lunch.length > 0" class="card-subtitle mb-2">Lunch</h5>
+                    <div *ngFor="let meal of diet.lunch">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.dinner.length > 0" class="card-subtitle mb-2">Dinner</h5>
+                    <div *ngFor="let meal of diet.dinner">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.snack.length > 0" class="card-subtitle mb-2">Snack</h5>
+                    <div *ngFor="let meal of diet.snack">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.other.length > 0" class="card-subtitle mb-2">Other</h5>
+                    <div *ngFor="let meal of diet.other">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                </div>
+
+                <div *ngIf="diet === selectedDiet && !editing" class="card-body" (click)=onCancel()>
+                    <h4 class="card-title">Entry for: {{ diet.date }} </h4>
+                    <h5 class="card-subtitle mb-2 text-muted">Total Calories: {{ diet.total_calories }}</h5>
+                    <h5 *ngIf="diet.breakfast.length > 0" class="card-subtitle mb-2">Breakfast</h5>
+                    <div *ngFor="let meal of diet.breakfast">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.lunch.length > 0" class="card-subtitle mb-2">Lunch</h5>
+                    <div *ngFor="let meal of diet.lunch">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.dinner.length > 0" class="card-subtitle mb-2">Dinner</h5>
+                    <div *ngFor="let meal of diet.dinner">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.snack.length > 0" class="card-subtitle mb-2">Snack</h5>
+                    <div *ngFor="let meal of diet.snack">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <h5 *ngIf="diet.other.length > 0" class="card-subtitle mb-2">Other</h5>
+                    <div *ngFor="let meal of diet.other">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="col btn btn-primary px-5" (click)="onCreateMeal()">Add</button>
+                        <button type="button" class="col btn btn-warning control px-5" (click)="onEdit()">Edit</button>
+                    </div>
+                </div>
+
+                <div *ngIf="diet === selectedDiet && editing" class="card-body">
+                    <div>
+                        <h4 class="card-subtitle mb-2 inline-item"> Entry for: </h4>
+                        <input class="inline-item" [(ngModel)]="editDiet.date">
+                    </div>
+                    <h5 class="card-subtitle mb-2 text-muted">Total Calories: {{ editDiet.total_calories }}</h5>
+                    <h5 *ngIf="editDiet.breakfast.length > 0" class="card-subtitle mb-2">Breakfast</h5>
+                    <div *ngFor="let meal of editDiet.breakfast">
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                        <button class="btn btn-danger inline-item" (click)="onRemoveMeal(meal)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                    </div>
+                    <h5 *ngIf="editDiet.lunch.length > 0" class="card-subtitle mb-2">Lunch</h5>
+                    <div *ngFor="let meal of editDiet.lunch">
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                        <button class="btn btn-danger inline-item" (click)="onRemoveMeal(meal)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                    </div>
+                    <h5 *ngIf="editDiet.dinner.length > 0" class="card-subtitle mb-2">Dinner</h5>
+                    <div *ngFor="let meal of editDiet.dinner">
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                        <button class="btn btn-danger inline-item" (click)="onRemoveMeal(meal)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                    </div>
+                    <h5 *ngIf="editDiet.snack.length > 0" class="card-subtitle mb-2">Snack</h5>
+                    <div *ngFor="let meal of editDiet.snack">
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                        <button class="btn btn-danger inline-item" (click)="onRemoveMeal(meal)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                    </div>
+                    <h5 *ngIf="editDiet.other.length > 0" class="card-subtitle mb-2">Other</h5>
+                    <div *ngFor="let meal of editDiet.other">
+                        <h6 class="card-subtitle mb-2 text-muted inline-item">{{ meal.name }} x {{ meal.servings }} - {{ meal.calories * meal.servings }} Calories</h6>
+                        <button class="btn btn-danger inline-item" (click)="onRemoveMeal(meal)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                    </div>
+                    <div class="row justify-content-between">
+                        <button type="button" class="col btn btn-success control" (click)="onSubmit()">Submit</button>
+                        <button type="button" class="col btn btn-danger control" (click)="onDelete()">Delete</button>
+                        <button type="button" class="col btn btn-secondary control" (click)="onCancel()">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

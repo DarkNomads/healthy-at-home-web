@@ -21,7 +21,7 @@ export class SleepComponent implements OnInit {
   ngOnInit(): void {
     if( localStorage.getItem( 'user' ) ) {
       let user: any = localStorage.getItem( 'user' );
-      this.sleepGoal = JSON.parse( user ).sleep_goal;
+      this.sleepGoal = parseFloat( JSON.parse( user ).sleep_goal );
     }
     if( localStorage.getItem( 'sleepDays' ) ) {
       this.sleepDays = localStorage.getItem( 'sleepDays' );
@@ -101,6 +101,7 @@ export class SleepComponent implements OnInit {
     this.selectedSleep = null;
     this.editSleep = null;
     this.editing = false;
+    localStorage.setItem( 'sleepDays', JSON.stringify( this.sleepDays ) );
   }
 
 }
