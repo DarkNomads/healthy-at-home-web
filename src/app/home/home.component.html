@@ -11,34 +11,30 @@
     <div class="d-flex row mb-3 no-gutters justify-content-center">
         <div class="d-flex col card-col m-2 justify-content-center">
             <div class="card app-card">
-                <div class="card-body">
-                    <h5 class="card-title">Workouts</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                <div class="card-body" (click)=routeToWorkouts()>
+                    <h5 class="card-title text-center">Workouts</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Total Routines: {{ routines }}</h6>
+                    <p class="card-text">Create custom exercise routines, or try out some out some of our presets!</p>
                 </div>
             </div>
         </div>
         <div class="d-flex col card-col m-2 justify-content-center align">
             <div class="card app-card">
-                <div class="card-body">
-                    <h5 class="card-title">Diet Planning</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                <div class="card-body" (click)=routeToDiet()>
+                    <h5 class="card-title text-center">Diet Planning</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Total Entries: {{ dietEntries }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Calorie Goal: {{ calorieGoal }} Calories</h6>
+                    <p class="card-text">Create entries that track how many calories you consume, and the meals that you eat throughout the day!</p>
                 </div>
             </div>
         </div>
         <div class="d-flex col card-col m-2 justify-content-center">
             <div class="card app-card">
-                <div class="card-body">
-                    <h5 class="card-title">Sleep Tracker</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                <div class="card-body" (click)=routeToSleep()>
+                    <h5 class="card-title text-center">Sleep Tracker</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Total Entries: {{ sleepEntries }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Sleep Goal: {{ sleepGoal }} Hours</h6>
+                    <p class="card-text">Create entries for how many hours of sleep you get each day, and track progress towards your sleep goal!</p>
                 </div>
             </div>
         </div>
