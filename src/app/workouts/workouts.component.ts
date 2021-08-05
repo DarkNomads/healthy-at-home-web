@@ -10,22 +10,29 @@ export class WorkoutsComponent implements OnInit {
 
   faCheck = faCheck;
 
-  workouts: any = [
-    { name: "Pushups", reps: 10, sets: 3, description: "You push yourself up, without your legs." },
-    { name: "Pullups", reps: 5, sets: 3, description: "You pull yourself up, with just your arms." },
-    { name: "Squats", reps: 10, sets: 5, description: "You squat, but with a weight on your shoulders."  },
-    { name: "Deadlifts", reps: 3, sets: 2, description: "You lift a weight in front of you, using your body." }
-  ];
-
+  workouts: any = [];
   addedWorkouts: any = [];
 
   selectedWorkout: any = null;
   editWorkout: any = null;
   editing: boolean = false;
+  started: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+    if( localStorage.getItem( 'workouts' ) ) {
+      this.workouts = localStorage.getItem( 'workouts' );
+      this.workouts = JSON.parse( this.workouts );
+    }
+    else {
+      this.workouts = [
+        { name: "Pushups", reps: 30, sets: 3, description: "A conditioning exercise performed in a prone position by raising and lowering the body with the straightening and bending of the arms while keeping the back straight and supporting the body on the hands and toes." },
+        { name: "Pullups", reps: 5, sets: 3, description: "A challenging upper body exercise where you grip an overhead bar and lift your body until your chin is above that bar." },
+        { name: "Deadlifts", reps: 3, sets: 3, description: "A movement where your hips hinge backward to lower down and pick up a weighted barbell or kettlebell from the floor." }
+      ];
+      localStorage.setItem( 'workouts', JSON.stringify( this.workouts ) );
+    }
   }
 
   selectWorkout( workout: any ) {
@@ -53,6 +60,7 @@ export class WorkoutsComponent implements OnInit {
     this.selectedWorkout = null;
     this.editWorkout = null;
     this.editing = false;
+    localStorage.setItem( 'workouts', JSON.stringify( this.workouts ) );
   }
 
   onCancel() {
@@ -67,6 +75,7 @@ export class WorkoutsComponent implements OnInit {
     this.selectedWorkout = null;
     this.editWorkout = null;
     this.editing = false;
+    localStorage.setItem( 'workouts', JSON.stringify( this.workouts ) );
   }
 
   isAdded( workout: any ) {
@@ -85,12 +94,20 @@ export class WorkoutsComponent implements OnInit {
   onRemove() {
     if( this.addedWorkouts.indexOf( this.selectedWorkout ) != -1 ) {
       this.addedWorkouts.splice( this.addedWorkouts.indexOf( this.selectedWorkout ) , 1 );
+      if( this.addedWorkouts.length == 0 ) {
+        this.onEnd();
+      }
     }
   }
 
   onStart() {
-    if( this.editing ) { return; }
-    
+    if( this.editing || this.addedWorkouts.length == 0 ) { return; }
+    this.started = true;
+  }
+
+  onEnd() {
+    this.started = false;
+    this.addedWorkouts = [];
   }
 
 

@@ -11,7 +11,7 @@ export class SleepComponent implements OnInit {
 
   sleepDays: any = [];
 
-  sleepGoal: number = 8.5;
+  sleepGoal: number = 0;
 
   selectedSleep: any = null;
   editSleep: any = null;
@@ -19,6 +19,14 @@ export class SleepComponent implements OnInit {
   
 
   ngOnInit(): void {
+    if( localStorage.getItem( 'user' ) ) {
+      let user: any = localStorage.getItem( 'user' );
+      this.sleepGoal = JSON.parse( user ).sleep_goal;
+    }
+    if( localStorage.getItem( 'sleepDays' ) ) {
+      this.sleepDays = localStorage.getItem( 'sleepDays' );
+      this.sleepDays = JSON.parse( this.sleepDays );
+    }
   }
 
   getAverage() {
@@ -79,6 +87,7 @@ export class SleepComponent implements OnInit {
     this.sleepDays.sort( ( first: any, second: any ) => {
       return Date.parse( second.date ) - Date.parse( first.date );
     } )
+    localStorage.setItem( 'sleepDays', JSON.stringify( this.sleepDays ) );
   }
 
   onCancel() {
