@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { WorkoutsComponent } from './workouts/workouts.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SleepComponent } from './sleep/sleep.component';
+import { DietComponent } from './diet/diet.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SleepComponent } from './sleep/sleep.component';
     HomeComponent,
     ProfileComponent,
     WorkoutsComponent,
-    SleepComponent
+    SleepComponent,
+    DietComponent
   ],
   imports: [
     BrowserModule,
