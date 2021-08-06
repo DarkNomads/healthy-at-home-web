@@ -134,7 +134,7 @@
                 <div *ngIf="diet === selectedDiet && editing" class="card-body">
                     <div>
                         <h4 class="card-subtitle mb-2 inline-item"> Entry for: </h4>
-                        <input class="inline-item" [(ngModel)]="editDiet.date">
+                        <input class="inline-item mb-2" [(ngModel)]="editDiet.date">
                     </div>
                     <h5 class="card-subtitle mb-2 text-muted">Total Calories: {{ editDiet.total_calories }}</h5>
                     <h5 *ngIf="editDiet.breakfast.length > 0" class="card-subtitle mb-2">Breakfast</h5>
